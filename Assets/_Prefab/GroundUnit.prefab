@@ -572,10 +572,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9193918584531793455}
   - component: {fileID: 6956112126668953319}
-  - component: {fileID: 7484629054934362285}
   - component: {fileID: 1061080313854010640}
   m_Layer: 0
-  m_Name: Unit Bounds
+  m_Name: Unit Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -617,27 +616,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 20}
   m_Center: {x: 3, y: 1, z: 0}
---- !u!65 &7484629054934362285
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2636925183765543990}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 55
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 20}
-  m_Center: {x: -8.5, y: 1, z: 0}
 --- !u!114 &1061080313854010640
 MonoBehaviour:
   m_ObjectHideFlags: 0
