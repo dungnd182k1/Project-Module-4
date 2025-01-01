@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] PlayerDataConfig playerDataConfig;
-
-    [SerializeField] float playerMaxhealth;
-    [SerializeField] float playerCurrentHealth;
-    [SerializeField] float playerDamage;
-    [SerializeField] float playerArmor;
-    [SerializeField] float playerMoveSpeed;
-    [SerializeField] float playerAttackSpeed;
 
     [SerializeField] Joystick joystick;
     [SerializeField] Animator playerAnimation;
@@ -23,13 +15,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        playerMaxhealth = PlayerDataManager.Instance.Health;
-        playerCurrentHealth = playerMaxhealth;
-        playerDamage = PlayerDataManager.Instance.Damage;
-        playerArmor = PlayerDataManager.Instance.Armor;
-        playerMoveSpeed = PlayerDataManager.Instance.MoveSpeed;
-        playerAttackSpeed = PlayerDataManager.Instance.AttackSpeed;
-
         playerAnimation = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         walkHash = Animator.StringToHash(walkString);
