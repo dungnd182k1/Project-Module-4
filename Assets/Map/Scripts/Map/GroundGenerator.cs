@@ -42,7 +42,7 @@ public class GroundGenerator : MonoBehaviour
         {
             foreach (GameObject unit in groundUnitPool)
             {
-                unit.SetActive(false);
+                Destroy(unit);
             }
             groundUnitPool.Clear();
         }
