@@ -470,10 +470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76f9b91cab63774dac02658a66e83ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundUnits:
-  - {fileID: 6496799121352250066, guid: d2b10040cd754d142a20e97df6a7d5e4, type: 3}
-  - {fileID: 7079867665567027946, guid: 8bbebdeb0bc5ea14b9294d61e8506307, type: 3}
-  - {fileID: 3312238336823788416, guid: d45f8f0dbae1d8b43a1e274c4ebf9ac3, type: 3}
   shell: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

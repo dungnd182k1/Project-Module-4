@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GroundGenerator : MonoBehaviour
@@ -156,14 +155,6 @@ public class GroundGenerator : MonoBehaviour
         mapIndex %= groundUnits.Length;
         InitMap(groundUnits[mapIndex]);
     }
-
-    //private void //Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.J))
-    //    {
-    //        ChangeMap();
-    //    }
-    //}
 
     private void OnDisable()
     {
