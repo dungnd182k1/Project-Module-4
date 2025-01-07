@@ -1,39 +1,69 @@
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [SerializeField] Transform weaponTranform; // Vị trí vũ khí, tâm bám kính tìm kiếm enemy
+    [SerializeField] float detectionRadius = 10f; // Bán kính tìm kiếm
+    [SerializeField] float delayTime = 2f; // Khoản cách giữa các lầm tìm kiếm enemy mới
+    [SerializeField] GameObject closetEnemy;
+
+    [SerializeField] GameObject targerRing;
+
     private void Start()
     {
-        StartCoroutine(FindClosestEnemy());
+        StartCoroutine(FindClosetEnemyFixtest());
     }
     void Update()
     {
-        
+         TargetRing();
     }
-    IEnumerator FindClosestEnemy()
+    IEnumerator FindClosetEnemyFixtest()
     {
         while (true)
         {
-            yield return new WaitForSeconds(2);
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            GameObject closestEnemy = null;
-            float closestDistance = Mathf.Infinity;
-
-            foreach (GameObject enemy in enemies)
+            if (closetEnemy == null)
             {
-                float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-                if (distanceToEnemy < closestDistance)
+                closetEnemy = FindClosetEnemy();
+            }
+            else
+            {
+                yield return new WaitForSeconds(delayTime);
+                closetEnemy = FindClosetEnemy();
+            }
+        }
+    }
+    GameObject FindClosetEnemy()
+    {
+        Collider[] colliders = Physics.OverlapSphere(weaponTranform.position, detectionRadius);
+        GameObject closet = null;
+        float shortesDistance = Mathf.Infinity;
+
+        foreach (Collider collider in colliders)
+        {
+            if ( collider.CompareTag("Enemy"))
+            {
+                float distance = Vector3.Distance(weaponTranform.position, collider.transform.position);
+                if ( distance < shortesDistance )
                 {
-                    closestDistance = distanceToEnemy;
-                    closestEnemy = enemy;
+                    shortesDistance = distance;
+                    closet = collider.gameObject;
                 }
             }
-
-            if (closestEnemy != null)
-            {
-                Debug.Log("Closest Enemy: " + closestEnemy.name);
-            }
-        } 
+        }
+        return closet;
+    }
+    void TargetRing()
+    {
+        if (closetEnemy == null)
+        {
+            targerRing.transform.position = new Vector3 (targerRing.transform.position.x, -5f, targerRing.transform.position.z);
+        }
+        else
+        {
+            targerRing.transform.position = closetEnemy.transform.position;
+        }
     }
 }

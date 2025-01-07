@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,18 +6,24 @@ public class PlayerController : MonoBehaviour
 {
 
     [SerializeField] Joystick joystick;
+
     [SerializeField] Animator playerAnimation;
     [SerializeField] CharacterController characterController;
     [SerializeField] float rotationSpeed = 700f;
     [SerializeField] Vector3 playerDirection;
     [SerializeField] string walkString = "Walk";
     [SerializeField] int walkHash;
+    [SerializeField] string walkSpeedString = "WalkSpeed";
+    [SerializeField] int walkSpeedHash;
+    [SerializeField] float walkSpeed;
+    [SerializeField] float walkSpeedLevle = 6.0f; // Tốc độ theo cấp độ của người chơi. Thấp nhất là 6 người chơi đi bộ. Cao nhất là 10 người chơi sẽ chạy.
 
     void Start()
     {
         playerAnimation = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         walkHash = Animator.StringToHash(walkString);
+        walkSpeedHash = Animator.StringToHash(walkSpeedString);
     }
 
     // Update is called once per frame
@@ -38,7 +44,8 @@ public class PlayerController : MonoBehaviour
             float agle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSpeed, 0.1f);
             transform.rotation = Quaternion.Euler(0f, agle, 0f);
             playerAnimation.SetBool(walkHash, true);
-            playerAnimation.speed = playerDirection.magnitude;
+            walkSpeed = new Vector2(horizontal, vertical).magnitude * (walkSpeedLevle/10);
+            playerAnimation.SetFloat(walkSpeedHash, walkSpeed);
         }
         else
         {
