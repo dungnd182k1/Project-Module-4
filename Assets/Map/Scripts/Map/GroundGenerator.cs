@@ -158,10 +158,7 @@ public class GroundGenerator : MonoBehaviour
 
     private void OnDisable()
     {
-        foreach (GameObject unit in groundUnitPool)
-        {
-            Destroy(unit);
-        }
+        Destroy(poolObj);
         groundUnitPool = null;
         outOfRegionUnits = null;
         groundUnit = null;
