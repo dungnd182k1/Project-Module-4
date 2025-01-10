@@ -1,5 +1,6 @@
 using UnityEngine;
 
+#region Interfaces
 public interface IAttackable
 {
     int damage { get; }
@@ -17,5 +18,16 @@ public interface IOnEnemyDie
 
 public interface ITransformGettable
 {
-    Transform GetTransform();
+    Transform transform { get; }
 }
+#endregion
+#region Enums
+public enum GameState
+{
+    Running,
+    Pause,
+    StageStart,
+    StageOver,
+    GameOver
+}
+#endregion
