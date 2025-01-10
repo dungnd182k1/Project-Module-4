@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,10 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     GameState gameState;
-    //biến list chứa instances của interface IOnGameStates
-
+    IOnGameStates[][] gameElements;
     [SerializeField]
-    GameObject player;
+    GameObject[] gameElementObjects;
     IOnEnemyDie enemyDieDependency;
     ITransformGettable transformProvider;
 
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -32,32 +33,80 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        enemyDieDependency = player.GetComponent<IOnEnemyDie>();
-        transformProvider = player.GetComponent<ITransformGettable>();
-        //chạy hàm khởi tạo của enemies spawner trong đó
-            //có gọi hàm khởi tạo của enemies,
-            //nhận tham số kiểu IOnEnemyDie và ITransformGettable
+        gameElements = new IOnGameStates[gameElementObjects.Length][];
+        Init(out int interfacesInstanceIndex);
+        InvokeStarts(interfacesInstanceIndex);
+        SetGameState(GameState.None);
     }
 
-    private void Update()
+    void Init(out int interfacesInstanceIndex)
+    {
+        interfacesInstanceIndex = -1;
+        for (int i = 0; i < gameElementObjects.Length; i++)
+        {
+            if (gameElementObjects[i].TryGetComponent(out IOnEnemyDie iOnEnemyDie)
+                && gameElementObjects[i].TryGetComponent(out ITransformGettable iTransformGettable))
+            {
+                enemyDieDependency = iOnEnemyDie;
+                transformProvider = iTransformGettable;
+                interfacesInstanceIndex = i;
+            }
+            gameElements[i] = gameElementObjects[i].GetComponents<IOnGameStates>();
+        }
+    }
+
+    void InvokeStarts(int interfacesInstanceIndex)
+    {
+        for (int i = 0; i < gameElements.Length; i++)
+        {
+            for (int j = 0; j < gameElements[i].Length; j++)
+            {
+                if (i == interfacesInstanceIndex)
+                {
+                    gameElements[i][j].OnGameStart();
+                }
+                else
+                {
+                    gameElements[i][j].OnGameStart(enemyDieDependency, transformProvider);
+                }
+            }
+        }
+    }
+
+    private void Update()//Hoặc dùng sự kiện
+    {
+        if (gameState == GameState.None)
+        {
+            return;
+        }
+
+        for (int i = 0; i < gameElements.Length; i++)
+        {
+            for (int j = 0; j < gameElements[i].Length; j++)
+            {
+                InvokeGameStates(gameElements[i][j]);
+            }
+        }
+    }
+
+    void InvokeGameStates(IOnGameStates gameElement)
     {
         switch (gameState)
         {
+            case GameState.GameOver:
+                gameElement.OnGameOver();
+                SetGameState(GameState.None);
+                return;
             case GameState.Running:
-                //if (Time.timeScale == 0)
-                //{
-                //    Time.timeScale = 1;
-                //}
+                gameElement.OnGameRunning();
                 return;
-            case GameState.Pause:
-                //Time.timeScale = 0;
-                return;
-            //gọi các phương thức tương ứng từ IOnGameStates instances
             case GameState.StageStart:
+                gameElement.OnStageStart();
+                SetGameState(GameState.Running);
                 return;
             case GameState.StageOver:
-                return;
-            case GameState.GameOver:
+                gameElement.OnStageOver();
+                SetGameState(GameState.None);
                 return;
         }
     }
@@ -65,6 +114,15 @@ public class GameManager : MonoBehaviour
     public void SetGameState(GameState state)
     {
         gameState = state;
+        switch (gameState)
+        {
+            case GameState.Running:
+                Time.timeScale = 1;
+                return;
+            case GameState.Pause:
+                Time.timeScale = 0;
+                return;
+        }
     }
 
     public void OnAttack(CharacterBase attacker, CharacterBase damageTaker)

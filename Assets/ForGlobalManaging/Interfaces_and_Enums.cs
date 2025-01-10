@@ -20,10 +20,20 @@ public interface ITransformGettable
 {
     Transform transform { get; }
 }
+
+public interface IOnGameStates
+{
+    void OnGameStart(params object[] parameter);
+    void OnGameRunning();
+    void OnStageStart();
+    void OnStageOver();
+    void OnGameOver();
+}
 #endregion
 #region Enums
 public enum GameState
 {
+    None,
     Running,
     Pause,
     StageStart,
