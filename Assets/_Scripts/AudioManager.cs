@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    // Giá trị âm lượng mặc định
     public static float DefaultBgmVolume = 1;
     public static float DefaultSfxVolume = 1;
     public static float DefaultVoiceVolume = 1;
@@ -12,19 +13,23 @@ public class AudioManager : MonoBehaviour
     public static float DefaultSfxVolumeScale = 1;
     public static float DefaultVoiceVolumeScale = 1;
 
+    // Giá trị âm lượng đang được lưu trữ
     private static float bgmVolume = -1;
     private static float sfxVolume = -1;
     private static float voiceVolume = -1;
 
     private static float bgmVolumeScale = 1;
 
+    // Khóa cho các thiết lập âm lượng trong PlayerPrefs
     public static string PREF_SFX_VOLUME = "SFX_VOLUME";
     public static string PREF_BGM_VOLUME = "BGM_VOLUME";
 
+    // Tên các đoạn âm thanh
     public const string upgrade = "upgrade";
     public const string upgrade_sucess = "sound_nangcapxongphong";
     public const string level_Up = "level_up4";
 
+    // Các thuộc tính để lấy và thiết lập âm lượng
     public static float BgmVolume
     {
         get
@@ -80,6 +85,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để thay đổi trạng thái âm lượng nhạc nền
     public void ChangeBGSound(bool state)
     {
         if (state)
@@ -92,6 +98,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để thay đổi trạng thái âm lượng hiệu ứng âm thanh
     public void ChangeSFXSound(bool state)
     {
         if (state)
@@ -104,6 +111,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Lưu các thiết lập âm lượng vào PlayerPrefs
     public static void Save()
     {
         PlayerPrefs.SetFloat("BGM_VOLUME", BgmVolume);
@@ -112,6 +120,7 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    // Các trường serialize cho đường dẫn âm thanh và nguồn âm thanh
     [SerializeField] private string m_BgmPath = "Sounds/Bgm";
     [SerializeField] private string m_SfxPath = "Sounds/Sfx";
     [SerializeField] private string m_VoicePath = "Sounds/Voice";
@@ -120,16 +129,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource m_SfxSource;
     [SerializeField] private AudioSource m_VoiceSource;
 
-
-
-
+    // Đối tượng singleton instance
     public static AudioManager instance { get; protected set; }
 
+    // Dictionaries để cache các âm thanh và giới hạn tần suất phát
     private Dictionary<string, float> soundFxLimit = new Dictionary<string, float>();
-
     private Dictionary<string, AudioClip> m_AudioDict = new Dictionary<string, AudioClip>();
     private bool m_PauseBgm;
 
+    // Các thuộc tính để lấy đường dẫn và nguồn âm thanh
     public string sfxPath
     {
         get { return m_SfxPath; }
@@ -150,14 +158,13 @@ public class AudioManager : MonoBehaviour
         get { return m_VoiceSource; }
     }
 
+    // Phương thức để phát hiệu ứng âm thanh khi bấm nút
     public void PlayButtonTapSfx()
     {
         PlaySfx(m_ButtonTapSfx, 1);
     }
 
-    /// <summary>
-    /// Play a random sfx from the array
-    /// </summary>
+    // Phương thức để phát ngẫu nhiên một hiệu ứng âm thanh từ một mảng
     public void PlaySfx(string[] array, float volumeScale = 1f)
     {
         if (array.Length > 0)
@@ -175,13 +182,15 @@ public class AudioManager : MonoBehaviour
         m_SfxSource.PlayOneShot(audioClip, SfxVolume * DefaultSfxVolumeScale * volumeScale);
     }
 
+    // Phương thức để phát một hiệu ứng âm thanh với các tùy chọn khác nhau
     public void PlaySfx(string audioName, float volumeScale = 1f, bool oneShot = true, bool isLoop = false, float delay = 0, Action actionMoveCam = null)
     {
         if (!CanPlaySound(audioName)) return;
 
-        StartCoroutine(CoroutinePlaySFX(audioName, volumeScale, oneShot, isLoop, delay,actionMoveCam));
+        StartCoroutine(CoroutinePlaySFX(audioName, volumeScale, oneShot, isLoop, delay, actionMoveCam));
     }
 
+    // Kiểm tra xem có thể phát hiệu ứng âm thanh dựa trên giới hạn tần suất phát
     private bool CanPlaySound(string audioName)
     {
         if (soundFxLimit.ContainsKey(audioName))
@@ -199,9 +208,9 @@ public class AudioManager : MonoBehaviour
 
     private bool isPlayingUpgrade;
 
+    // Coroutine để phát hiệu ứng âm thanh với các tùy chọn delay và khác
     private IEnumerator CoroutinePlaySFX(string audioName, float volumeScale = 1f, bool oneShot = true, bool isLoop = false, float delay = 0, Action actionMoveCam = null)
     {
-        //Debug.Log("test");
         if (isPlayingUpgrade && audioName == upgrade)
         {
             actionMoveCam?.Invoke();
@@ -234,17 +243,18 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để dừng phát hiệu ứng âm thanh
     public void StopSfx()
     {
         m_SfxSource.Stop();
     }
 
-
-
+    // Phương thức để lấy độ dài của một hiệu ứng âm thanh
     public float GetLength(string audioName)
     {
         return (m_AudioDict.ContainsKey(audioName) ? m_AudioDict[audioName].length : 0);
     }
+
 
     public float PlayVoice(AudioClip audioClip, float volumeScale = 1f)
     {
@@ -269,11 +279,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để thiết lập pitch của giọng nói
     public void SetVoicePitch(float pitch)
     {
         m_VoiceSource.pitch = pitch;
     }
 
+    // Phương thức để phát nhạc nền (BGM)
     public void PlayBgm(string audioName, float volumeScale = 1f)
     {
         bgmVolumeScale = volumeScale;
@@ -300,6 +312,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để dừng phát nhạc nền (BGM)
     public void StopBgm(bool clearClip = false)
     {
         if (m_BgmSource.isPlaying)
@@ -314,6 +327,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Thuộc tính để tạm dừng hoặc tiếp tục phát nhạc nền (BGM)
     public bool pauseBgm
     {
         set
@@ -331,6 +345,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để cache một AudioClip bằng đối tượng clip và tên âm thanh
     public void CacheClip(AudioClip clip, string audioName)
     {
         if (!m_AudioDict.ContainsKey(audioName))
@@ -339,10 +354,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để cache một AudioClip từ đường dẫn và tên âm thanh
     public void CacheClip(string path, string audioName)
     {
         /*
-        if (m_AudioDict.Count > 10) //clear cache if too large
+        if (m_AudioDict.Count > 10) // Làm rỗng cache nếu quá lớn
         {
             foreach (var item in m_AudioDict)
             {
@@ -354,11 +370,12 @@ public class AudioManager : MonoBehaviour
         if (!m_AudioDict.ContainsKey(audioName))
         {
             AudioClip clip = Resources.Load<AudioClip>(System.IO.Path.Combine(path, audioName));
-            if (clip == null) { Debug.LogError("audioclip not found " + System.IO.Path.Combine(path, audioName)); }
+            if (clip == null) { Debug.LogError("Không tìm thấy AudioClip: " + System.IO.Path.Combine(path, audioName)); }
             m_AudioDict.Add(audioName, clip);
         }
     }
 
+    // Phương thức để cache các hiệu ứng âm thanh từ mảng
     public void CacheSfx(string[] array)
     {
         foreach (var item in array)
@@ -367,11 +384,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để cache một hiệu ứng âm thanh
     public void CacheSfx(string audioName)
     {
         CacheClip(m_SfxPath, audioName);
     }
 
+    // Phương thức để xóa cache clip
     public void ClearCacheClip(string audioName, bool unloadClip)
     {
         if (m_AudioDict.ContainsKey(audioName))
@@ -384,6 +403,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Phương thức để làm rỗng toàn bộ cache clip
     public void ClearCacheClip()
     {
         foreach (var item in m_AudioDict)
@@ -393,10 +413,12 @@ public class AudioManager : MonoBehaviour
         m_AudioDict.Clear();
     }
 
+    // Phương thức để làm mờ dần âm thanh (để trống)
     public void Fadeout()
     {
     }
 
+    // Phương thức Awake để khởi tạo instance và thiết lập không bị phá hủy khi chuyển scene
     private void Awake()
     {
         if (instance != null)
@@ -406,15 +428,15 @@ public class AudioManager : MonoBehaviour
         else
         {
             DontDestroyOnLoad(this.gameObject);
-
             instance = this;
         }
     }
 
+    // Phương thức Start để bắt đầu phát nhạc nền và đặt tùy chọn âm thanh
     private void Start()
     {
         StopAllCoroutines();
-         PlayBgm("BGM", 0.5f);
+        PlayBgm("BGM", 0.5f);
         //PlaySfx("StartCar", .4f);
 
 
@@ -422,8 +444,7 @@ public class AudioManager : MonoBehaviour
         //ChangeSFXSound(Game.Data.Load<UserData>().soundOn);
     }
 
-    //Bonus Script
-
+    // Các phương thức bổ sung để phát âm thanh khi tương tác
     public void ClickButton()
     {
         PlaySfx("Button", 1);
@@ -460,11 +481,9 @@ public class AudioManager : MonoBehaviour
     {
         PlaySfx("Coin", 1);
     }
-
-
-
     public void CloseButton()
     {
         PlaySfx("CloseBtn", 1);
     }
+
 }
