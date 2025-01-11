@@ -24,11 +24,11 @@ public interface ITransformGettable
 public interface IOnGameStates
 {
     void OnGameStart(params object[] parameter);
-    void OnGameRunning();
-    void OnGamePause();
-    void OnStageStart();
-    void OnStageOver();
-    void OnGameOver();
+    void OnGameRunning() { }
+    void OnGamePause() { }
+    void OnStageStart() { }
+    void OnStageOver() { }
+    void OnGameOver() { }
 }
 #endregion
 #region Enums

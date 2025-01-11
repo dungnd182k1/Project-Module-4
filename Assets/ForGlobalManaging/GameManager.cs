@@ -75,42 +75,28 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (gameState == GameState.None)
-        {
-            return;
-        }
-
-        for (int i = 0; i < gameElements.Length; i++)
-        {
-            for (int j = 0; j < gameElements[i].Length; j++)
-            {
-                InvokeGameStates(gameElements[i][j]);
-            }
-        }
-    }
-
-    void InvokeGameStates(IOnGameStates gameElement)
-    {
         switch (gameState)
         {
+            case GameState.None:
+                return;
             case GameState.Running:
-                gameElement.OnGameRunning();
+                Iterate(gameElements, instance => () => instance.OnGameRunning());
                 return;
             case GameState.Pause:
+                Iterate(gameElements, instance => () => instance.OnGamePause());
                 Time.timeScale = 0;
-                gameElement.OnGamePause();
                 SetGameState(GameState.None);
                 return;
             case GameState.GameOver:
-                gameElement.OnGameOver();
+                Iterate(gameElements, instance => () => instance.OnGameOver());
                 SetGameState(GameState.None);
                 return;
             case GameState.StageStart:
-                gameElement.OnStageStart();
+                Iterate(gameElements, instance => () => instance.OnStageStart());
                 SetGameState(GameState.Running);
                 return;
             case GameState.StageOver:
-                gameElement.OnStageOver();
+                Iterate(gameElements, instance => () => instance.OnStageOver());
                 SetGameState(GameState.None);
                 return;
         }
@@ -122,6 +108,17 @@ public class GameManager : MonoBehaviour
         if (Time.timeScale == 0 && gameState == GameState.Running)
         {
             Time.timeScale = 1;
+        }
+    }
+
+    public void Iterate(IOnGameStates[][] instances, Func<IOnGameStates, Action> Invoke)
+    {
+        for (int i = 0; i < instances.Length; i++)
+        {
+            for (int j = 0; j < instances[i].Length; j++)
+            {
+                Invoke(instances[i][j]);
+            }
         }
     }
 
