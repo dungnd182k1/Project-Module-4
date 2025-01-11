@@ -18,13 +18,14 @@ public interface IOnEnemyDie
 
 public interface ITransformGettable
 {
-    Transform transform { get; }
+    Transform _transform { get; }
 }
 
 public interface IOnGameStates
 {
     void OnGameStart(params object[] parameter);
     void OnGameRunning();
+    void OnGamePause();
     void OnStageStart();
     void OnStageOver();
     void OnGameOver();

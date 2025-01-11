@@ -34,14 +34,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameElements = new IOnGameStates[gameElementObjects.Length][];
-        Init(out int interfacesInstanceIndex);
-        InvokeStarts(interfacesInstanceIndex);
-        SetGameState(GameState.None);
+        Init(out int dependencyIndex);
+        InvokeStarts(dependencyIndex);
+        SetGameState(GameState.StageStart);
     }
 
-    void Init(out int interfacesInstanceIndex)
+    void Init(out int dependencyIndex)
     {
-        interfacesInstanceIndex = -1;
+        dependencyIndex = -1;
         for (int i = 0; i < gameElementObjects.Length; i++)
         {
             if (gameElementObjects[i].TryGetComponent(out IOnEnemyDie iOnEnemyDie)
@@ -49,19 +49,19 @@ public class GameManager : MonoBehaviour
             {
                 enemyDieDependency = iOnEnemyDie;
                 transformProvider = iTransformGettable;
-                interfacesInstanceIndex = i;
+                dependencyIndex = i;
             }
             gameElements[i] = gameElementObjects[i].GetComponents<IOnGameStates>();
         }
     }
 
-    void InvokeStarts(int interfacesInstanceIndex)
+    void InvokeStarts(int dependencyIndex)
     {
         for (int i = 0; i < gameElements.Length; i++)
         {
             for (int j = 0; j < gameElements[i].Length; j++)
             {
-                if (i == interfacesInstanceIndex)
+                if (i == dependencyIndex)
                 {
                     gameElements[i][j].OnGameStart();
                 }
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()//Hoặc dùng sự kiện
+    private void Update()
     {
         if (gameState == GameState.None)
         {
@@ -93,12 +93,17 @@ public class GameManager : MonoBehaviour
     {
         switch (gameState)
         {
+            case GameState.Running:
+                gameElement.OnGameRunning();
+                return;
+            case GameState.Pause:
+                Time.timeScale = 0;
+                gameElement.OnGamePause();
+                SetGameState(GameState.None);
+                return;
             case GameState.GameOver:
                 gameElement.OnGameOver();
                 SetGameState(GameState.None);
-                return;
-            case GameState.Running:
-                gameElement.OnGameRunning();
                 return;
             case GameState.StageStart:
                 gameElement.OnStageStart();
@@ -114,14 +119,9 @@ public class GameManager : MonoBehaviour
     public void SetGameState(GameState state)
     {
         gameState = state;
-        switch (gameState)
+        if (Time.timeScale == 0 && gameState == GameState.Running)
         {
-            case GameState.Running:
-                Time.timeScale = 1;
-                return;
-            case GameState.Pause:
-                Time.timeScale = 0;
-                return;
+            Time.timeScale = 1;
         }
     }
 
