@@ -18,16 +18,15 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] CanvasGroup canvasGroupPowerUp;
     [SerializeField] CanvasGroup canvasGroupGameOver;
     [SerializeField] CanvasGroup canvasGroupOptions;
+    public bool hasPanelBuff;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("Click");
             OnEnablePanelPowerUp();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            Debug.Log("Click");
             OnEnablePanelGameOver();
         }
     }
@@ -58,10 +57,12 @@ public class UIManager : Singleton<UIManager>
     public void OnEnablePanelPowerUp()
     {
         Show(panelPowerUp, canvasGroupPowerUp);
+        hasPanelBuff =true;
     }
     public void OnDisablePanelPowerUp()
     {
         Hide(panelPowerUp, canvasGroupPowerUp);
+        hasPanelBuff = false;
     }
     public void OnEnablePanelGameOver()
     {

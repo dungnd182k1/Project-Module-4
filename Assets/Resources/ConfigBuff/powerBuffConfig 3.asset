@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 031471699d712b84ea16c6ce7c7f5c7c, type: 3}
-  m_Name: powerBuffConfig 0
+  m_Name: powerBuffConfig 3
   m_EditorClassIdentifier: 
-  iD: 0
-  namePowerBuff: IncreaseAttack
-  damage: 10
+  iD: 3
+  level: 3
+  iconBuff: {fileID: 0}
+  namePowerUp: Attack
+  damage: 100
   rangeAttack: 0
   attackSpeed: 0
   moveSpeed: 0
   armor: 0
+  bloodSucking: 0
+  descriptionBuff: Increases character's attack power by 100%

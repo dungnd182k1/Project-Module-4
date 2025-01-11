@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 031471699d712b84ea16c6ce7c7f5c7c, type: 3}
-  m_Name: powerBuffConfig 14
+  m_Name: powerBuffConfig 11
   m_EditorClassIdentifier: 
-  iD: 14
-  level: 0
-  namePowerBuff: IncreaseArmor
+  iD: 11
+  level: 3
+  iconBuff: {fileID: 0}
+  namePowerUp: Attack Range
   damage: 0
-  rangeAttack: 0
+  rangeAttack: 50
   attackSpeed: 0
   moveSpeed: 0
-  armor: 10
+  armor: 0
   bloodSucking: 0
+  descriptionBuff: Increases character's attack range by 50%

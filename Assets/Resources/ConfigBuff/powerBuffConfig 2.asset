@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iD: 2
   level: 2
-  namePowerBuff: IncreaseAttack
+  iconBuff: {fileID: 0}
+  namePowerUp: Attack
   damage: 50
   rangeAttack: 0
   attackSpeed: 0
   moveSpeed: 0
   armor: 0
+  bloodSucking: 0
+  descriptionBuff: Increases character's attack power by 50%
