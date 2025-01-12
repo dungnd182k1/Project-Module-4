@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour, IOnGameStates
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -45,20 +44,15 @@ public class GameManager : MonoBehaviour, IOnGameStates
                 return;
             case GameState.Pause:
                 Iterate(gameElements, instance => () => instance.OnGamePause());
-                Time.timeScale = 0;
-                SetGameState(GameState.None);
                 return;
             case GameState.GameOver:
                 Iterate(gameElements, instance => () => instance.OnGameOver());
-                SetGameState(GameState.None);
                 return;
             case GameState.StageStart:
                 Iterate(gameElements, instance => () => instance.OnStageStart());
-                SetGameState(GameState.Running);
                 return;
             case GameState.StageOver:
                 Iterate(gameElements, instance => () => instance.OnStageOver());
-                SetGameState(GameState.None);
                 return;
         }
     }
@@ -89,6 +83,27 @@ public class GameManager : MonoBehaviour, IOnGameStates
                 gameElements = param;
             }
         }
+    }
+
+    public void OnGamePause()
+    {
+        Time.timeScale = 0;
+        SetGameState(GameState.None);
+    }
+
+    public void OnGameOver()
+    {
+        SetGameState(GameState.None);
+    }
+
+    public void OnStageStart()
+    {
+        SetGameState(GameState.Running);
+    }
+
+    public void OnStageOver()
+    {
+        SetGameState(GameState.None);
     }
 
     public void OnAttack(CharacterBase attacker, CharacterBase damageTaker)
