@@ -62,7 +62,6 @@ public class SAMPLE{
         IOnEnemyDie dieDependency;
         GameObject prefab;
         List<IOnGameStates> enemies;
-        IOnGameStates[][] listTo2DArray;
         public void OnGameStart(params object[] parameter){
             foreach (var param in parameter){
                 if (param.GetType() is ITransformGettable instance1)
@@ -74,25 +73,24 @@ public class SAMPLE{
             Spawn();
             foreach (IOnGameStates enemy in enemies)
                 enemy.OnGameStart(player, dieDependency);
-            listTo2DArray = new IOnGameStates[1][] { enemies.ToArray() };
         }
         void Spawn(){
             enemies.Add(Instantiate(prefab).GetComponent<IOnGameStates>());
         }
         public void OnGameOver(){
-            GameManager.instance.Iterate(listTo2DArray, enemy => () => enemy.OnGameOver());
+            GameManager.instance.Iterate(enemies, enemy => () => enemy.OnGameOver());
         }
         public void OnGamePause(){
-            GameManager.instance.Iterate(listTo2DArray, enemy => () => enemy.OnGamePause());
+            GameManager.instance.Iterate(enemies, enemy => () => enemy.OnGamePause());
         }
         public void OnGameRunning(){
-            GameManager.instance.Iterate(listTo2DArray, enemy => () => enemy.OnGameRunning());
+            GameManager.instance.Iterate(enemies, enemy => () => enemy.OnGameRunning());
         }
         public void OnStageOver(){
-            GameManager.instance.Iterate(listTo2DArray, enemy => () => enemy.OnStageOver());
+            GameManager.instance.Iterate(enemies, enemy => () => enemy.OnStageOver());
         }
         public void OnStageStart(){
-            GameManager.instance.Iterate(listTo2DArray, enemy => () => enemy.OnStageStart());
+            GameManager.instance.Iterate(enemies, enemy => () => enemy.OnStageStart());
         }
     }
     class Enemy : CharacterBase, IOnGameStates{

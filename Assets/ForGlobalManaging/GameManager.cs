@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IOnGameStates
 {
     public static GameManager instance;
 
     GameState gameState;
-    IOnGameStates[][] gameElements;
+    List<IOnGameStates> gameElements;
     [SerializeField]
-    GameObject[] gameElementObjects;
-    IOnEnemyDie enemyDieDependency;
-    ITransformGettable transformProvider;
-
+    Initializer initializer;
     private void OnEnable()
     {
         if (instance == null)
@@ -33,44 +30,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameElements = new IOnGameStates[gameElementObjects.Length][];
-        Init(out int dependencyIndex);
-        InvokeStarts(dependencyIndex);
+        initializer.InjectAllAtGameStart();
         SetGameState(GameState.StageStart);
-    }
-
-    void Init(out int dependencyIndex)
-    {
-        dependencyIndex = -1;
-        for (int i = 0; i < gameElementObjects.Length; i++)
-        {
-            if (gameElementObjects[i].TryGetComponent(out IOnEnemyDie iOnEnemyDie)
-                && gameElementObjects[i].TryGetComponent(out ITransformGettable iTransformGettable))
-            {
-                enemyDieDependency = iOnEnemyDie;
-                transformProvider = iTransformGettable;
-                dependencyIndex = i;
-            }
-            gameElements[i] = gameElementObjects[i].GetComponents<IOnGameStates>();
-        }
-    }
-
-    void InvokeStarts(int dependencyIndex)
-    {
-        for (int i = 0; i < gameElements.Length; i++)
-        {
-            for (int j = 0; j < gameElements[i].Length; j++)
-            {
-                if (i == dependencyIndex)
-                {
-                    gameElements[i][j].OnGameStart();
-                }
-                else
-                {
-                    gameElements[i][j].OnGameStart(enemyDieDependency, transformProvider);
-                }
-            }
-        }
     }
 
     private void Update()
@@ -111,13 +72,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Iterate(IOnGameStates[][] instances, Func<IOnGameStates, Action> Invoke)
+    public void Iterate(List<IOnGameStates> instances, Func<IOnGameStates, Action> Invoke)
     {
-        for (int i = 0; i < instances.Length; i++)
+        foreach (IOnGameStates instance in instances)
         {
-            for (int j = 0; j < instances[i].Length; j++)
+            Invoke(instance);
+        }
+    }
+
+    public void OnGameStart(params object[] parameter)
+    {
+        foreach (object obj in parameter)
+        {
+            if (obj is List<IOnGameStates> param)
             {
-                Invoke(instances[i][j]);
+                gameElements = param;
             }
         }
     }
@@ -129,5 +98,4 @@ public class GameManager : MonoBehaviour
             damageTaker.BeAttacked(attacker.damage);
         }
     }
-
 }
