@@ -9,3 +9,4 @@
 	- Enemy truyền transform từ ITransformGettable vào Behaviour TurtleMove
 	- Lớp chịu trách nhiệm spawn enemy cần truyền lại tham số mình lấy được vào cho từng Enemy
 	- Lớp chịu trách nhiệm spawn enemy cần giữ danh sách các enemies và gọi lại các phương thức của Enemy
++ Lớp thực hiện nhận damage và chứa thông tin về damage có thể deal của các nhân vật: kế thừa từ CharacterBase
