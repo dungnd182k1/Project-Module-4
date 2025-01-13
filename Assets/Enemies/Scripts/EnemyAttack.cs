@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TurtleAttack : StateMachineBehaviour
+public class EnemyAttack : StateMachineBehaviour
 {
 
     Transform player;

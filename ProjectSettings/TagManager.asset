@@ -8,6 +8,7 @@ TagManager:
   - BuffInfoNPC
   - UpgradeNPC
   - ChooseWeaponNPC
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Player
   - NPC
-  - 
+  - Enemy
   - 
   - 
   - 
