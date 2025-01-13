@@ -8,12 +8,13 @@ public class Initializer
     List<IOnGameStates> gameElements;
     [SerializeField]
     GameObject[] gameElementObjects;
-    IOnEnemyDie enemyDieDependency;
+    List<IOnEnemyDie> enemyDieDependencies;
     ITransformGettable transformProvider;
 
     public void InjectAllAtGameStart()
     {
         gameElements = new List<IOnGameStates>();
+        enemyDieDependencies = new List<IOnEnemyDie>();
         Init();
         InvokeStarts();
     }
@@ -22,12 +23,15 @@ public class Initializer
     {
         foreach (GameObject obj in gameElementObjects)
         {
-            if (obj.TryGetComponent(out IOnEnemyDie iOnEnemyDie)
-                && obj.TryGetComponent(out ITransformGettable iTransformGettable))
+            if (obj.TryGetComponent(out ITransformGettable iTransformGettable))
             {
-                enemyDieDependency = iOnEnemyDie;
                 transformProvider = iTransformGettable;
             }
+            if (obj.TryGetComponent(out IOnEnemyDie iOnEnemyDie))
+            {
+                enemyDieDependencies.Add(iOnEnemyDie);
+            }
+
             gameElements.AddRange(obj.GetComponents<IOnGameStates>());
         }
     }
@@ -36,7 +40,7 @@ public class Initializer
     {
         foreach (IOnGameStates element in gameElements)
         {
-            element.OnGameStart(gameElements, enemyDieDependency, transformProvider);
+            element.OnGameStart(gameElements, enemyDieDependencies, transformProvider);
         }
     }
 }

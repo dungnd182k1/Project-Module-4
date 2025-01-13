@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour, IOnGameStates
     List<IOnGameStates> gameElements;
     [SerializeField]
     Initializer initializer;
-    private void OnEnable()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -66,9 +66,9 @@ public class GameManager : MonoBehaviour, IOnGameStates
         }
     }
 
-    public void Iterate(List<IOnGameStates> instances, Func<IOnGameStates, Action> Invoke)
+    public void Iterate<T>(List<T> instances, Func<T, Action> Invoke)
     {
-        foreach (IOnGameStates instance in instances)
+        foreach (T instance in instances)
         {
             Invoke(instance);
         }
@@ -103,14 +103,14 @@ public class GameManager : MonoBehaviour, IOnGameStates
 
     public void OnStageOver()
     {
-        SetGameState(GameState.None);
+        SetGameState(GameState.Running);
     }
 
     public void OnAttack(CharacterBase attacker, CharacterBase damageTaker)
     {
         if (damageTaker != null && attacker != null)
         {
-            damageTaker.BeAttacked(attacker.damage);
+            damageTaker.BeAttacked(attacker._damage);
         }
     }
 }
