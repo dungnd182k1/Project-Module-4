@@ -9,8 +9,7 @@ public class PanelPowerUp : MonoBehaviour
     [SerializeField] Button powerUp2;
     [SerializeField] Button powerUp3;
     [SerializeField] Button roll;
-
-    private void Awake()
+    private void Awake()    
     {
         powerUp1.onClick.AddListener(ClickPowerUp1);
         powerUp2.onClick.AddListener(ClickPowerUp2);
@@ -19,14 +18,17 @@ public class PanelPowerUp : MonoBehaviour
     }
     void ClickPowerUp1()
     {
+        DataManager.Instance.ChooseBuff1();
         UIManager.Instance.OnDisablePanelPowerUp();
     }
     void ClickPowerUp2()
     {
+        DataManager.Instance.ChooseBuff2();
         UIManager.Instance.OnDisablePanelPowerUp();
     }
     void ClickPowerUp3()
     {
+        DataManager.Instance.ChooseBuff3();
         UIManager.Instance.OnDisablePanelPowerUp();
     }
     void ClickRoll()

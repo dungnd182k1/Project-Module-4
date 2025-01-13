@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031471699d712b84ea16c6ce7c7f5c7c, type: 3}
   m_Name: powerBuffConfig 12
   m_EditorClassIdentifier: 
-  iD: 12
-  level: 0
-  iconBuff: {fileID: 0}
-  namePowerUp: Move Speed
+  iD: 11
+  level: 3
+  iconBuff: {fileID: 21300000, guid: aa8ef49759c82ae45abc049597dd720f, type: 3}
+  namePowerUp: Health
   damage: 0
-  rangeAttack: 0
+  hp: 50
   attackSpeed: 0
-  moveSpeed: 10
+  moveSpeed: 0
   armor: 0
-  bloodSucking: 0
-  descriptionBuff: Increases character movement speed by 10%
+  lifeSteal: 0
+  descriptionBuff: Increase character's health by 50%

@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class PowerUp : MonoBehaviour
 {
     public ConfigPowerUp buff;
-    [SerializeField] Image iconBuff;
-    [SerializeField] Text txtNameBuff;
-    [SerializeField] Text txtDescriptionBuff;
+    [SerializeField] protected Image iconBuff;
+    [SerializeField] protected Text txtNameBuff;
+    [SerializeField] protected Text txtDescriptionBuff;
     public Button button;
     public void Awake()
     {
@@ -16,19 +16,19 @@ public class PowerUp : MonoBehaviour
         button.onClick.AddListener(() => ClickButton());
     }
     private void Update()
-    {
+    {        
         if (!UIManager.Instance.hasPanelBuff)
         {
             buff = null;
             return;
         }
-        ChangeInfoBuff();
+        ChangeInfoBuff();        
     }
     public virtual void ClickButton()
     {
         //Cộng chỉ số
     }
-    void ChangeInfoBuff()
+    protected virtual void ChangeInfoBuff()
     {
         if (buff != null) return;
         buff = DataManager.Instance.GetConfigPowerUp();

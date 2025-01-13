@@ -7,10 +7,10 @@ public class ConfigPowerUp : ScriptableObject
     public Sprite iconBuff;
     public string namePowerUp;
     public float damage;
-    public float rangeAttack;
+    public float hp;
     public float attackSpeed;
     public float moveSpeed;
     public float armor;
-    public float bloodSucking;
+    public float lifeSteal;
     public string descriptionBuff;
 }

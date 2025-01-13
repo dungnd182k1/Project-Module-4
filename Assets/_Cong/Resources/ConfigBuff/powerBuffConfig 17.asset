@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031471699d712b84ea16c6ce7c7f5c7c, type: 3}
   m_Name: powerBuffConfig 17
   m_EditorClassIdentifier: 
-  iD: 17
+  iD: 15
   level: 2
-  iconBuff: {fileID: 0}
-  namePowerUp: Life Steal
+  iconBuff: {fileID: 21300000, guid: 60ed0599d5dbe934585e3e16b6b3e459, type: 3}
+  namePowerUp: Armor
   damage: 0
-  rangeAttack: 0
+  hp: 0
   attackSpeed: 0
   moveSpeed: 0
-  armor: 0
-  bloodSucking: 10
-  descriptionBuff: Increase character's lifesteal by 10%
+  armor: 20
+  lifeSteal: 0
+  descriptionBuff: Increase character armor by 20%

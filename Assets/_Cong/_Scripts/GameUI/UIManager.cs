@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -18,6 +17,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] CanvasGroup canvasGroupPowerUp;
     [SerializeField] CanvasGroup canvasGroupGameOver;
     [SerializeField] CanvasGroup canvasGroupOptions;
+    [SerializeField] Transform selectedBuff;
+    [SerializeField] List<Sprite> buffList = new List<Sprite>();
+    [SerializeField] GameObject imageBuff;
     public bool hasPanelBuff;
     private void Update()
     {
@@ -79,6 +81,28 @@ public class UIManager : Singleton<UIManager>
     public void OnDisablePanelOptions()
     {
         Hide(panelOptions, canvasGroupOptions);
+    }
+    public void AddToBuffList(ConfigPowerUp buff)
+    {      
+        buffList.Add(buff.iconBuff);
+        AddBuffToPausePanel();       
+    }
+    public void AddBuffToPausePanel()
+    {
+        foreach (Transform buff in selectedBuff)
+        {
+            Destroy(buff.gameObject);
+        }
+        foreach (Sprite buff in buffList)
+        {
+            GameObject obj = Instantiate(imageBuff, selectedBuff);
+            var iconBuff = obj.transform.GetChild(0).GetComponent<Image>(); 
+            iconBuff.sprite = buff;
+        }
+    }
+    public void ClearBuffList()
+    {
+        buffList.Clear();
     }
     public void Show(GameObject panel, CanvasGroup canvasGroup)
     {

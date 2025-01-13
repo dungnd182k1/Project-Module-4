@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: powerBuffConfig 10
   m_EditorClassIdentifier: 
   iD: 10
-  level: 1
-  iconBuff: {fileID: 0}
-  namePowerUp: Attack Range
+  level: 0
+  iconBuff: {fileID: 21300000, guid: aa8ef49759c82ae45abc049597dd720f, type: 3}
+  namePowerUp: Health
   damage: 0
-  rangeAttack: 20
+  hp: 10
   attackSpeed: 0
   moveSpeed: 0
   armor: 0
-  bloodSucking: 0
-  descriptionBuff: Increases character's attack range by 20%
+  lifeSteal: 0
+  descriptionBuff: Increase character's health by 10%

@@ -7,7 +7,26 @@ using UnityEngine;
 public class DataManager : Singleton<DataManager>
 {
     [SerializeField] ConfigPowerUp[] powerUp;
+    [SerializeField] ConfigPowerUp buff; 
+    public ConfigPowerUp buff1;
+    public ConfigPowerUp buff2;
+    public ConfigPowerUp buff3;
 
+    public void ChooseBuff1()
+    {
+        buff = buff1;
+        UIManager.Instance.AddToBuffList(buff);
+    }
+    public void ChooseBuff2()
+    {
+        buff = buff2;
+        UIManager.Instance.AddToBuffList(buff);
+    }
+    public void ChooseBuff3()
+    {
+        buff = buff3;
+        UIManager.Instance.AddToBuffList(buff);
+    }
     public ConfigPowerUp GetConfigPowerUp()
     {
         int levelBuff;

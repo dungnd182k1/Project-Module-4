@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iD: 9
   level: 4
-  iconBuff: {fileID: 0}
+  iconBuff: {fileID: 21300000, guid: ac770d7bcf709b5489e841237c0c57b8, type: 3}
   namePowerUp: Attack Speed
   damage: 0
-  rangeAttack: 0
+  hp: 0
   attackSpeed: 100
   moveSpeed: 0
   armor: 0
-  bloodSucking: 0
+  lifeSteal: 0
   descriptionBuff: Increases character attack speed by 100%
