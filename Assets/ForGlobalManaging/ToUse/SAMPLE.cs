@@ -24,37 +24,6 @@ public class SAMPLE{
         public override void BeAttacked(int damage){//logic
         }
     }
-    class Camera : MonoBehaviour, IOnGameStates
-    {
-        ITransformGettable player;
-        bool gamePause;
-        public void OnEnemyDie(){//logic
-        }
-        public void OnGameOver(){//logic
-        }
-        public void OnGamePause(){
-            gamePause = true;
-        }
-        public void OnGameRunning(){//Update logic
-        }
-        public void OnGameStart(params object[] parameter){
-            foreach (var param in parameter)
-                if (param.GetType() is ITransformGettable instance){
-                    player = instance;
-                    break;
-                }
-            //Start logic
-        }
-        public void OnStageOver(){//logic
-        }
-        public void OnStageStart(){//logic
-        }
-        void LateUpdate(){
-            if (gamePause)
-                return;
-            transform.position = player._transform.position + Vector3.one/*for example*/;
-        }
-    }
     #endregion
     #region For Enemy
     class EnemySpawner : MonoBehaviour, IOnGameStates{

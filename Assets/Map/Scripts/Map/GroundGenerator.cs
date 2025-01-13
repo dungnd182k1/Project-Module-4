@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundGenerator : MonoBehaviour
+public class GroundGenerator : MonoBehaviour, IMapGenerattable, IOnGameStates
 {
     public static GroundGenerator instance;
 
@@ -14,7 +14,7 @@ public class GroundGenerator : MonoBehaviour
     int inPoolCount;
     HashSet<Vector3> generateCoordinates;
     Vector3 pivotPosition = Vector3.zero;
-    int mapIndex;
+    int mapIndex/* = -1*/;
     float offset;
     [SerializeField]
     int shell = 1;
@@ -33,6 +33,21 @@ public class GroundGenerator : MonoBehaviour
         InitMap(groundUnits[mapIndex]);
     }
 
+    public void OnGameStart(params object[] parameter)
+    {
+        //groundUnits = Resources.LoadAll<GameObject>(UNITS_PATH_IN_RESOURCES);
+        //groundUnitPool = new List<GameObject>();
+        //poolObj = new GameObject("GroundUnitPool");
+        //generateCoordinates = new HashSet<Vector3>();
+        //outOfRegionUnits = new List<GameObject>();
+        //inPoolCount = shell * 2 + 1;
+    }
+
+    //public void OnStageStart()
+    //{
+    //    ChangeMap();
+    //}
+
     void InitMap(GameObject currentGroundUnit)
     {
         groundUnit = currentGroundUnit;
@@ -49,6 +64,7 @@ public class GroundGenerator : MonoBehaviour
         for (int i = 0; i < inPoolCount; i++)
         {
             GameObject obj = Instantiate(groundUnit, poolObj.transform);
+            //obj.GetComponentInChildren<IOnGameStates>().OnGameStart(this);
             obj.SetActive(false);
             groundUnitPool.Add(obj);
         }

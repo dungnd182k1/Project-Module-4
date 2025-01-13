@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 #region Interfaces
@@ -19,6 +20,11 @@ public interface IOnEnemyDie
 public interface ITransformGettable
 {
     Transform _transform { get; }
+}
+
+public interface IMapGenerattable
+{
+    void GenerateUnits(Func<Vector3> PivotSetter = null);
 }
 
 public interface IOnGameStates
