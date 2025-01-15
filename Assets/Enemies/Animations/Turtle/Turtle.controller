@@ -226,8 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260dfb732cb36e642b8190ad76d1a6a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  attackDistance: 3
+  chasingSpeed: 1
+  attackDistance: 1.5
 --- !u!1102 &2857392995076004157
 AnimatorState:
   serializedVersion: 6

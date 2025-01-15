@@ -5,10 +5,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int HP;
-
-    [SerializeField] private int damage; //Sát thưởng của quái gây lên người chơi
-
-    [SerializeField] private int exp; //Kinh nghiệm rớt ra khi quái chết
     private Animator animator;
 
     public bool isDead;
