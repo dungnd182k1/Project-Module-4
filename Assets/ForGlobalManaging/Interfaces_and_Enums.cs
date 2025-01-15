@@ -4,7 +4,7 @@ using UnityEngine;
 #region Interfaces
 public interface IAttackable
 {
-    int damage { get; }
+    int _damage { get; }
 }
 
 public interface IBeAttackedable

@@ -92,6 +92,8 @@ public class GroundGenerator : MonoBehaviour, IMapGenerattable, IOnGameStates
             generateCoordinates.Clear();
         }
 
+        if (offset <= 0) offset = 20;
+
         for (float i = pivotPosition.z - (offset * shell); i <= pivotPosition.z + (offset * shell); i += offset)
         {
             generateCoordinates.Add(new Vector3(0, 0, i));
