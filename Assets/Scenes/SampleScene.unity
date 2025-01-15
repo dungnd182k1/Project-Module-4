@@ -615,19 +615,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1154175021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76f9b91cab63774dac02658a66e83ea, type: 3}
+  m_Script: {fileID: 11500000, guid: a57f7e0180f7d3345b1f874cbe8e699d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundUnits: []
-  groundUnit: {fileID: 0}
-  poolObj: {fileID: 0}
-  groundUnitPool: []
-  inPoolCount: 0
-  pivotPosition: {x: 0, y: 0, z: 0}
-  mapIndex: 0
-  offset: 0
   shell: 1
-  outOfRegionUnits: []
 --- !u!4 &1154175023
 Transform:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class EnemyMove : StateMachineBehaviour
 
     public float moveSpeed = 5f;
     public float attackDistance = 3f;
+    public float maxDistance = 21f; // Khoảng cách tối đa mà quái có thể ở xa người chơi
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -29,6 +30,13 @@ public class EnemyMove : StateMachineBehaviour
         if (distanceToPlayer < attackDistance)
         {
             animator.SetBool("isAttacking", true);
+        }
+
+        if (distanceToPlayer > maxDistance)
+        {
+            // Dịch chuyển quái về gần người chơi
+            Vector3 teleportPosition = player.position - direction * (maxDistance - 1f); // Dịch chuyển quái về gần người chơi nhưng vẫn giữ khoảng cách an toàn
+            rb.MovePosition(teleportPosition);
         }
     }
 
