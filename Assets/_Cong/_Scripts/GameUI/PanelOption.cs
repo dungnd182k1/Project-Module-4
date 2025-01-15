@@ -19,11 +19,13 @@ public class PanelOption : MonoBehaviour
     }
     void ClickBackButton()
     {
+        AudioManager.Instance.ClickButton();
         UIManager.Instance.OnEnablePanelPauseGame();
         UIManager.Instance.OnDisablePanelOptions();
     }
     void ClickMusicButton()
     {
+        AudioManager.Instance.ClickButton();
         if (black1.activeSelf)
         {
             black1.SetActive(false);
@@ -35,6 +37,7 @@ public class PanelOption : MonoBehaviour
     }
     void ClickVfxButton()
     {
+        AudioManager.Instance.ClickButton();
         if (black2.activeSelf)
         {
             black2.SetActive(false);

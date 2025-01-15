@@ -26,6 +26,7 @@ public class PowerUp : MonoBehaviour
     }
     public virtual void ClickButton()
     {
+        AudioManager.Instance.ClickButton();
         //Cộng chỉ số
     }
     protected virtual void ChangeInfoBuff()

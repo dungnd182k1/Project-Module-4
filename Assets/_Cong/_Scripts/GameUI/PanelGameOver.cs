@@ -15,10 +15,10 @@ public class PanelGameOver : MonoBehaviour
     }
     void ClickReplayButton()
     {
-
+        AudioManager.Instance.ClickButton();
     }
     void ClickHomeButton()
     {
-
+        AudioManager.Instance.ClickButton();
     }
 }

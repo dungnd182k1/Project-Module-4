@@ -18,21 +18,24 @@ public class PanelPowerUp : MonoBehaviour
     }
     void ClickPowerUp1()
     {
+        AudioManager.Instance.ClickButton();
         DataManager.Instance.ChooseBuff1();
         UIManager.Instance.OnDisablePanelPowerUp();
     }
     void ClickPowerUp2()
     {
+        AudioManager.Instance.ClickButton();
         DataManager.Instance.ChooseBuff2();
         UIManager.Instance.OnDisablePanelPowerUp();
     }
     void ClickPowerUp3()
     {
+        AudioManager.Instance.ClickButton();
         DataManager.Instance.ChooseBuff3();
         UIManager.Instance.OnDisablePanelPowerUp();
     }
     void ClickRoll()
     {
-
+        AudioManager.Instance.ClickButton();
     }
 }
